@@ -4,7 +4,7 @@ import { DraftOrder } from "@/components/DraftOrder";
 import odds from "@/constants/odds.js";
 import { CountryResult } from "@/types";
 import { useEffect, useState } from "react";
-import { View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function Index() {
@@ -47,8 +47,14 @@ export default function Index() {
           alignItems: "center",
         }}
       >
-        <DraftOrder countryResults={countryResults} />
-        <CountryResults countryResults={countryResults} />
+        {!!countryResults ? (
+          <View>
+            <DraftOrder countryResults={countryResults} />
+            <CountryResults countryResults={countryResults} />
+          </View>
+        ) : (
+          <ActivityIndicator style={{ margin: "auto" }} size="large" />
+        )}
         {/* <table>
         <thead>
           <tr>

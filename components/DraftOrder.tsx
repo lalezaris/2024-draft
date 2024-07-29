@@ -2,7 +2,13 @@ import responses from "@/constants/responses";
 import { CountryResult, FormResponse, FormResult } from "@/types";
 import { getCorrectGuesses } from "@/utils/getCorrectGuesses";
 import { useEffect, useState } from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { styles } from "./styles";
 
 const ListHeader = () => (
@@ -59,27 +65,34 @@ type DraftOrderProps = {
 
 export const DraftOrder = ({ countryResults }: DraftOrderProps) => {
   const [formResult, setFormResult] = useState(new Map<string, FormResult>());
+  const [sortedResponses, setSortedResponses] = useState(responses);
 
   useEffect(() => {
     if (countryResults) {
       const answersMap = getCorrectGuesses(countryResults);
+      const sorted = responses.sort((a, b) => {
+        const aResult = answersMap.get(a.email);
+        const bResult = answersMap.get(b.email);
+
+        if (bResult && aResult) {
+          if (aResult.correctAnswers !== bResult.correctAnswers) {
+            return bResult?.correctAnswers - aResult?.correctAnswers;
+          } else if (
+            aResult.totalCorrectMedals !== bResult.totalCorrectMedals
+          ) {
+            return bResult.totalCorrectMedals - aResult.totalCorrectMedals;
+          }
+        }
+        return b.standing - a.standing;
+      });
+      setSortedResponses(sorted);
       setFormResult(answersMap);
     }
   }, [countryResults]);
 
-  const sortedResponses = responses.sort((a, b) => {
-    const aResult = formResult.get(a.email);
-    const bResult = formResult.get(b.email);
-
-    if (bResult && aResult) {
-      if (aResult.correctAnswers !== bResult.correctAnswers) {
-        return bResult?.correctAnswers - aResult?.correctAnswers;
-      } else if (aResult.totalCorrectMedals !== bResult.totalCorrectMedals) {
-        return bResult.totalCorrectMedals - aResult.totalCorrectMedals;
-      }
-    }
-    return b.standing - a.standing;
-  });
+  if (!sortedResponses) {
+    return false;
+  }
 
   return (
     <FlatList
