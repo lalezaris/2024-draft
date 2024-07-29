@@ -5,6 +5,7 @@ import odds from "@/constants/odds.js";
 import { CountryResult } from "@/types";
 import { useEffect, useState } from "react";
 import { View } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function Index() {
   const [countryResults, setCountryResults] = useState<CountryResult[]>();
@@ -38,16 +39,17 @@ export default function Index() {
   }, []);
 
   return (
-    <View
-      style={{
-        flex: 1,
-        gap: 32,
-        alignItems: "center",
-      }}
-    >
-      <DraftOrder countryResults={countryResults} />
-      <CountryResults countryResults={countryResults} />
-      {/* <table>
+    <GestureHandlerRootView>
+      <View
+        style={{
+          flex: 1,
+          gap: 32,
+          alignItems: "center",
+        }}
+      >
+        <DraftOrder countryResults={countryResults} />
+        <CountryResults countryResults={countryResults} />
+        {/* <table>
         <thead>
           <tr>
             <th>Country</th>
@@ -85,6 +87,7 @@ export default function Index() {
           )}
         </tbody>
       </table> */}
-    </View>
+      </View>
+    </GestureHandlerRootView>
   );
 }

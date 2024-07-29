@@ -71,19 +71,14 @@ export const DraftOrder = ({ countryResults }: DraftOrderProps) => {
     const aResult = formResult.get(a.email);
     const bResult = formResult.get(b.email);
 
-    if (!bResult) {
-      return 1;
-    } else if (!aResult) {
-      return -1;
+    if (bResult && aResult) {
+      if (aResult.correctAnswers !== bResult.correctAnswers) {
+        return bResult?.correctAnswers - aResult?.correctAnswers;
+      } else if (aResult.totalCorrectMedals !== bResult.totalCorrectMedals) {
+        return bResult.totalCorrectMedals - aResult.totalCorrectMedals;
+      }
     }
-
-    if (aResult.correctAnswers !== bResult.correctAnswers) {
-      return bResult?.correctAnswers - aResult?.correctAnswers;
-    } else if (aResult.totalCorrectMedals !== bResult.totalCorrectMedals) {
-      return bResult.totalCorrectMedals - aResult.totalCorrectMedals;
-    } else {
-      return b.standing - a.standing;
-    }
+    return b.standing - a.standing;
   });
 
   return (
