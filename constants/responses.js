@@ -40,7 +40,7 @@ export default [
     chn: OverUnder.UNDER,
   },
   {
-    standing: 13,
+    standing: 12,
     name: "Sam",
     email: "sam.lalezari@gmail.com",
     fra: OverUnder.UNDER,
@@ -59,7 +59,7 @@ export default [
     chn: OverUnder.OVER,
   },
   {
-    standing: 12,
+    standing: 11,
     name: "Ian",
     email: "ipurv547@gmail.com",
     fra: OverUnder.UNDER,
@@ -135,7 +135,7 @@ export default [
     chn: OverUnder.OVER,
   },
   {
-    standing: 8,
+    standing: 9,
     name: "DJ",
     email: "djfuhrman92@gmail.com",
     fra: OverUnder.OVER,
@@ -154,7 +154,7 @@ export default [
     chn: OverUnder.UNDER,
   },
   {
-    standing: 11,
+    standing: 13,
     name: "Jeff",
     email: "jeff.ferguson9@gmail.com",
     fra: OverUnder.OVER,
@@ -173,7 +173,7 @@ export default [
     chn: OverUnder.OVER,
   },
   {
-    standing: 9,
+    standing: 8,
     name: "Shawn",
     email: "shenny1319@gmail.com",
     fra: OverUnder.UNDER,
