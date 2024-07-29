@@ -7,19 +7,19 @@ import { styles } from "./styles";
 
 const ListHeader = () => (
   <View style={styles.item}>
-    <View style={{ width: "5%" }}>
+    <View style={{ width: "5%", justifyContent: "flex-end" }}>
       <Text style={styles.header}>#</Text>
     </View>
-    <View style={{ width: "25%" }}>
+    <View style={{ width: "25%", justifyContent: "flex-end" }}>
       <Text style={styles.header}>Name</Text>
     </View>
-    <View style={{ width: "20%" }}>
+    <View style={{ width: "20%", justifyContent: "flex-end" }}>
       <Text style={styles.header}>Correct Guesses</Text>
     </View>
-    <View style={{ width: "15%" }}>
+    <View style={{ width: "15%", justifyContent: "flex-end" }}>
       <Text style={styles.header}>Total Medals</Text>
     </View>
-    <View style={{ width: "15%" }}>
+    <View style={{ width: "15%", justifyContent: "flex-end" }}>
       <Text style={styles.header}>2023 Finish</Text>
     </View>
   </View>
