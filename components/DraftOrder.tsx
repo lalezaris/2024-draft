@@ -95,11 +95,14 @@ export const DraftOrder = ({ countryResults }: DraftOrderProps) => {
   }
 
   return (
-    <FlatList
-      style={{ flexGrow: 0, width: "90%", maxWidth: 600 }}
-      data={sortedResponses}
-      renderItem={(props) => <DraftOrderItem result={formResult} {...props} />}
-      ListHeaderComponent={ListHeader}
-    />
+    <View>
+      <FlatList
+        data={sortedResponses}
+        renderItem={(props) => (
+          <DraftOrderItem result={formResult} {...props} />
+        )}
+        ListHeaderComponent={ListHeader}
+      />
+    </View>
   );
 };

@@ -4,7 +4,7 @@ import { DraftOrder } from "@/components/DraftOrder";
 import odds from "@/constants/odds.js";
 import { CountryResult } from "@/types";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, View } from "react-native";
+import { ActivityIndicator, ScrollView, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function Index() {
@@ -15,7 +15,15 @@ export default function Index() {
       const medalList = await fetchMedals();
       if (medalList.length !== odds.length) {
         odds.forEach((odd) => {
-          if (!medalList.find((country) => country.id === odd.id)) {
+          if (
+            !medalList.find((country) => {
+              console.log("fetchMedals, odd, country", odd.name, odd, country);
+              return (
+                country.name.trim().toLowerCase() ===
+                odd.name.trim().toLowerCase()
+              );
+            })
+          ) {
             medalList.push({
               id: odd.id,
               name: odd.olyName,
@@ -40,18 +48,23 @@ export default function Index() {
 
   return (
     <GestureHandlerRootView>
-      <View
-        style={{
-          flex: 1,
-          gap: 32,
-          alignItems: "center",
+      <ScrollView
+        contentContainerStyle={{
+          width: "100%",
+          padding: 16,
         }}
       >
         {!!countryResults ? (
-          <View>
+          <ScrollView
+            contentContainerStyle={{
+              gap: 32,
+              flexDirection: "column",
+            }}
+            horizontal
+          >
             <DraftOrder countryResults={countryResults} />
             <CountryResults countryResults={countryResults} />
-          </View>
+          </ScrollView>
         ) : (
           <ActivityIndicator style={{ margin: "auto" }} size="large" />
         )}
@@ -93,7 +106,7 @@ export default function Index() {
           )}
         </tbody>
       </table> */}
-      </View>
+      </ScrollView>
     </GestureHandlerRootView>
   );
 }

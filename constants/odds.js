@@ -76,7 +76,7 @@ export default [
   {
     gold: 0,
     id: CountryCodes.IRL,
-    name: "Republic of Ireland",
+    name: "Ireland",
     olyName: "Republic of Ireland",
     line: 2.5,
   },

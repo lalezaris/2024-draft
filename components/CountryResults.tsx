@@ -47,12 +47,13 @@ type CountryResultsProps = {
 
 const CountryResults = ({ countryResults }: CountryResultsProps) => {
   return (
-    <FlatList
-      style={{ width: "90%", maxWidth: 600 }}
-      data={countryResults}
-      renderItem={CountryItem}
-      ListHeaderComponent={CountryHeader}
-    />
+    <View>
+      <FlatList
+        data={countryResults}
+        renderItem={CountryItem}
+        ListHeaderComponent={CountryHeader}
+      />
+    </View>
   );
 };
 
