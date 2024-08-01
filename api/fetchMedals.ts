@@ -60,11 +60,11 @@ export const fetchMedals = async () => {
     );
 
     // console.log("countryOption", name, countryOption);
-    const id = "1";
-    if (countryOption && name && id) {
+    // const id = "1";
+    if (countryOption && name) {
       console.log("countryOption", name, goldMedalCount);
       medalList.push({
-        id: id as CountryCodes,
+        id: countryOption.id as CountryCodes,
         name: name,
         gold: Number(goldMedalCount),
         silver: Number(silverMedalCount),

@@ -69,6 +69,7 @@ export const DraftOrder = ({ countryResults }: DraftOrderProps) => {
 
   useEffect(() => {
     if (countryResults) {
+      console.log("countryResults", countryResults);
       const answersMap = getCorrectGuesses(countryResults);
       const sorted = responses.sort((a, b) => {
         const aResult = answersMap.get(a.email);

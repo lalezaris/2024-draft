@@ -1,13 +1,11 @@
 import { fetchMedals } from "@/api/fetchMedals";
-import CountryResults from "@/components/CountryResults";
 import { DraftOrder } from "@/components/DraftOrder";
 import odds from "@/constants/odds.js";
 import { CountryResult } from "@/types";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, ScrollView, View } from "react-native";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { ActivityIndicator, useWindowDimensions } from "react-native";
 
-export default function Index() {
+export default function Web() {
   const [countryResults, setCountryResults] = useState<CountryResult[]>();
 
   const fetchMedalsPage = async () => {
@@ -45,40 +43,32 @@ export default function Index() {
   useEffect(() => {
     fetchMedalsPage();
   }, []);
+  const { width } = useWindowDimensions();
 
-  return (
-    <GestureHandlerRootView>
-      <ScrollView
-        contentContainerStyle={{
-          width: "100%",
-          padding: 16,
-          alignItems: "center",
-        }}
-      >
-        {!!countryResults ? (
-          <ScrollView
-            contentContainerStyle={{
-              gap: 32,
-              flexDirection: "column",
-            }}
-            horizontal
-          >
-            <DraftOrder countryResults={countryResults} />
-            <CountryResults countryResults={countryResults} />
-          </ScrollView>
-        ) : (
-          <ActivityIndicator style={{ margin: "auto" }} size="large" />
-        )}
-        {/* <table>
+  return !!countryResults ? (
+    <div
+      style={{ display: "flex", alignItems: "center", flexDirection: "column" }}
+    >
+      <DraftOrder countryResults={countryResults} />
+
+      <table style={{ borderCollapse: "collapse" }}>
         <thead>
           <tr>
-            <th>Country</th>
-            <th>Gold Medals</th>
-            <th>Line</th>
-            <th>Current Result</th>
+            <th style={{ padding: "1rem", borderBottom: "2px solid black" }}>
+              Country
+            </th>
+            <th style={{ padding: "1rem", borderBottom: "2px solid black" }}>
+              Gold Medals
+            </th>
+            <th style={{ padding: "1rem", borderBottom: "2px solid black" }}>
+              Line
+            </th>
+            <th style={{ padding: "1rem", borderBottom: "2px solid black" }}>
+              Current Result
+            </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody style={{ textAlign: "center" }}>
           {countryResults ? (
             countryResults
               .sort((a, b) => {
@@ -91,12 +81,18 @@ export default function Index() {
               .map((odd) => {
                 return (
                   <tr key={odd.name}>
-                    <td>
-                      {odd.name} ({odd.id})
+                    <td
+                      style={{ padding: "0.125rem .5rem", textAlign: "left" }}
+                    >
+                      {width > 700 ? odd.name : odd.id.toUpperCase()}
                     </td>
-                    <td>{odd.gold || 0}</td>
-                    <td>{odd.line}</td>
-                    <td>{odd.gold < odd.line ? "UNDER" : "OVER"}</td>
+                    <td style={{ padding: "0.125rem .5rem" }}>
+                      {odd.gold || 0}
+                    </td>
+                    <td style={{ padding: "0.125rem .5rem" }}>{odd.line}</td>
+                    <td style={{ padding: "0.125rem .5rem" }}>
+                      {odd.gold < odd.line ? "UNDER" : "OVER"}
+                    </td>
                   </tr>
                 );
               })
@@ -106,8 +102,9 @@ export default function Index() {
             </tr>
           )}
         </tbody>
-      </table> */}
-      </ScrollView>
-    </GestureHandlerRootView>
+      </table>
+    </div>
+  ) : (
+    <ActivityIndicator style={{ margin: "auto" }} size="large" />
   );
 }
