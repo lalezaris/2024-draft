@@ -3,7 +3,11 @@ import { DraftOrder } from "@/components/DraftOrder";
 import odds from "@/constants/odds.js";
 import { CountryResult } from "@/types";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, useWindowDimensions } from "react-native";
+import {
+  ActivityIndicator,
+  ScrollView,
+  useWindowDimensions,
+} from "react-native";
 
 export default function Web() {
   const [countryResults, setCountryResults] = useState<CountryResult[]>();
@@ -47,7 +51,14 @@ export default function Web() {
 
   return !!countryResults ? (
     <div
-      style={{ display: "flex", alignItems: "center", flexDirection: "column" }}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        flexDirection: "column",
+        padding: "0 1rem 1rem 1rem",
+        overflow: "auto",
+        maxHeight: "100%",
+      }}
     >
       <DraftOrder countryResults={countryResults} />
 
@@ -58,13 +69,17 @@ export default function Web() {
               Country
             </th>
             <th style={{ padding: "1rem", borderBottom: "2px solid black" }}>
-              Gold Medals
+              Gold
+              <br />
+              Medals
             </th>
             <th style={{ padding: "1rem", borderBottom: "2px solid black" }}>
               Line
             </th>
             <th style={{ padding: "1rem", borderBottom: "2px solid black" }}>
-              Current Result
+              Current
+              <br />
+              Result
             </th>
           </tr>
         </thead>
@@ -80,17 +95,15 @@ export default function Web() {
               })
               .map((odd) => {
                 return (
-                  <tr key={odd.name}>
-                    <td
-                      style={{ padding: "0.125rem .5rem", textAlign: "left" }}
-                    >
-                      {width > 700 ? odd.name : odd.id.toUpperCase()}
+                  <tr key={odd.name} style={{ borderBottom: "1px solid gray" }}>
+                    <td style={{ padding: "0.25rem .5rem", textAlign: "left" }}>
+                      {width > 360 ? odd.name : odd.id.toUpperCase()}
                     </td>
-                    <td style={{ padding: "0.125rem .5rem" }}>
+                    <td style={{ padding: "0.25rem .5rem" }}>
                       {odd.gold || 0}
                     </td>
-                    <td style={{ padding: "0.125rem .5rem" }}>{odd.line}</td>
-                    <td style={{ padding: "0.125rem .5rem" }}>
+                    <td style={{ padding: "0.25rem .5rem" }}>{odd.line}</td>
+                    <td style={{ padding: "0.25rem .5rem" }}>
                       {odd.gold < odd.line ? "UNDER" : "OVER"}
                     </td>
                   </tr>

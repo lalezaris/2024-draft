@@ -1,5 +1,11 @@
 import responses from "@/constants/responses";
-import { CountryResult, FormResponse, FormResult } from "@/types";
+import {
+  CountryCodes,
+  CountryResult,
+  FormResponse,
+  FormResult,
+  OverUnder,
+} from "@/types";
 import { getCorrectGuesses } from "@/utils/getCorrectGuesses";
 import { useEffect, useState } from "react";
 import {
@@ -95,6 +101,126 @@ export const DraftOrder = ({ countryResults }: DraftOrderProps) => {
     return false;
   }
 
+  const [toggleRow, setToggleRow] = useState(-1);
+  return (
+    <div style={{ width: "100%", maxWidth: "850px", margin: "auto" }}>
+      <table
+        style={{ width: "100%", borderCollapse: "collapse", marginBottom: 32 }}
+      >
+        <thead>
+          <tr>
+            <th style={{ padding: "1rem", borderBottom: "2px solid black" }}>
+              #
+            </th>
+            <th style={{ padding: "1rem", borderBottom: "2px solid black" }}>
+              Name
+            </th>
+            <th style={{ padding: "1rem", borderBottom: "2px solid black" }}>
+              Correct
+              <br />
+              Guesses
+            </th>
+            <th style={{ padding: "1rem", borderBottom: "2px solid black" }}>
+              Total
+              <br />
+              Medals
+            </th>
+            <th style={{ padding: "1rem", borderBottom: "2px solid black" }}>
+              2023
+              <br />
+              Finish
+            </th>
+          </tr>
+        </thead>
+        <tbody style={{ textAlign: "center" }}>
+          {sortedResponses.map((response, index) => {
+            const result = formResult.get(response.email);
+            return (
+              <>
+                <tr
+                  key={index}
+                  style={{ borderBottom: "1px solid gray", cursor: "pointer" }}
+                  onClick={() => {
+                    toggleRow === index
+                      ? setToggleRow(-1)
+                      : setToggleRow(index);
+                  }}
+                >
+                  <td style={{ padding: ".5rem", textAlign: "left" }}>
+                    {index + 1}
+                  </td>
+                  <td
+                    style={{
+                      padding: ".5rem",
+                      textAlign: "left",
+                      color: "darkblue",
+                      textDecorationLine: "underline",
+                    }}
+                  >
+                    {response.name}
+                  </td>
+                  <td style={{ padding: ".5rem" }}>{result?.correctAnswers}</td>
+                  <td style={{ padding: ".5rem" }}>
+                    {result?.totalCorrectMedals}
+                  </td>
+                  <td style={{ padding: ".5rem" }}>{response.standing}</td>
+                </tr>
+                {toggleRow === index && (
+                  <tr>
+                    <td colSpan={5}>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          flexWrap: "wrap",
+                          columnGap: ".5rem",
+                          rowGap: ".125rem",
+                          border: "1px solid black",
+                          backgroundColor: "lightgray",
+                        }}
+                      >
+                        {Object.keys(CountryCodes)
+                          .sort()
+                          .map((code) => {
+                            const answer =
+                              response[code.toLowerCase() as CountryCodes];
+                            const country = countryResults?.find(
+                              (country) =>
+                                country.id.toLowerCase() === code.toLowerCase()
+                            );
+                            const result =
+                              country?.gold > country?.line
+                                ? OverUnder.OVER
+                                : OverUnder.UNDER;
+
+                            return (
+                              <span>
+                                {code.toUpperCase()}:{" "}
+                                <span
+                                  style={{
+                                    fontFamily: "sans-serif",
+                                    fontWeight: "bold",
+                                    color: `${
+                                      answer === result ? "green" : "red"
+                                    }`,
+                                  }}
+                                >
+                                  {answer.slice(0, 1)}
+                                </span>
+                              </span>
+                            );
+                          })}
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
   return (
     <View>
       <FlatList
