@@ -101,7 +101,7 @@ export const DraftOrder = ({ countryResults }: DraftOrderProps) => {
     return false;
   }
 
-  const [toggleRow, setToggleRow] = useState(-1);
+  const [toggleRow, setToggleRow] = useState<number[]>([]);
   return (
     <div style={{ width: "100%", maxWidth: "850px", margin: "auto" }}>
       <table
@@ -141,9 +141,9 @@ export const DraftOrder = ({ countryResults }: DraftOrderProps) => {
                   key={index}
                   style={{ borderBottom: "1px solid gray", cursor: "pointer" }}
                   onClick={() => {
-                    toggleRow === index
-                      ? setToggleRow(-1)
-                      : setToggleRow(index);
+                    toggleRow.includes(index)
+                      ? setToggleRow(toggleRow.filter((el) => el !== index))
+                      : setToggleRow(toggleRow.concat(index));
                   }}
                 >
                   <td style={{ padding: ".5rem", textAlign: "left" }}>
@@ -165,7 +165,7 @@ export const DraftOrder = ({ countryResults }: DraftOrderProps) => {
                   </td>
                   <td style={{ padding: ".5rem" }}>{response.standing}</td>
                 </tr>
-                {toggleRow === index && (
+                {toggleRow.includes(index) && (
                   <tr>
                     <td colSpan={5}>
                       <div
